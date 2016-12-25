@@ -20,7 +20,7 @@ def extract_bank(count_rows):
     #bank["時間"] =
     #bank["報表編號"] =
     bank["報表代號"] = title[:3]
-    bank["報表名稱"] = title[3:]
+    bank["報表名稱"] = title[3:19]
     bank["活期性存款"] = md
     bank["定期性存款"] = fd
     bank["外匯存款"] = fy
