@@ -35,7 +35,7 @@ with open("output_CSV.csv","w",newline="") as datacsv:
                          "公庫存款及其他"
                         ])
     #寫資料
-     for data_count in range(len(banks)):
+     for n in range(len(banks)):
          #csvwriter.writerow(banks[n].values())            
          csvwriter.writerow([banks[n]["報表編號"],
                              banks[n]["時間"],
@@ -51,4 +51,4 @@ with open("output_CSV.csv","w",newline="") as datacsv:
                              banks[n]["公庫存款及其他"]
                             ])            
 
-print('資料筆數：',data_count)
+print('資料筆數：',n)
