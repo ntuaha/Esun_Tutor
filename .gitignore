@@ -1,2 +1,4 @@
-.ipynb_checkpoints
 .DS_Store
+*.swp
+log/*.log
+.ipynb_checkpoints
