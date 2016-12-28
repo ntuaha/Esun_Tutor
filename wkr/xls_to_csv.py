@@ -1,3 +1,4 @@
+
 def extract_bank(count_rows):
     bank = {"銀行類別":"本國銀行","報表編號":"22010","時間":"010509"}
     
@@ -32,6 +33,42 @@ def extract_bank(count_rows):
     return bank
 
 
+def write_csv(banks,file_name):
+    with open(file_name,"w",newline="") as datacsv:
+         csvwriter = csv.writer(datacsv,dialect = ("excel"))
+         #寫標題
+         #csvwriter.writerow(banks[0])
+         csvwriter.writerow(["報表編號",
+                         "時間",
+                         "報表代號",
+                         "報表名稱",
+                         "銀行中文名稱",
+                         "銀行英文名稱",
+                         "銀行類別",
+                         "金控註記",
+                         "活期性存款",
+                         "定期性存款",
+                         "外匯存款",
+                         "公庫存款及其他"
+                        ])
+    #寫資料
+         for n in range(len(banks)):
+             #csvwriter.writerow(banks[n].values())            
+             csvwriter.writerow([banks[n]["報表編號"],
+                                 banks[n]["時間"],
+                                 banks[n]["報表代號"],
+                                 banks[n]["報表名稱"],
+                                 banks[n]["銀行中文名稱"],
+                                 banks[n]["銀行英文名稱"],
+                                 banks[n]["銀行類別"],
+                                 banks[n]["金控註記"],
+                                 banks[n]["活期性存款"],
+                                 banks[n]["定期性存款"],
+                                 banks[n]["外匯存款"],
+                                 banks[n]["公庫存款及其他"]
+                                ])            
+    return n
+
 import xlrd
 import csv
 banks = []
@@ -51,38 +88,6 @@ for sh_num in range(book.nsheets):
             banks.append(extract_bank(count_rows))
 
 #輸出檔案 csv
-with open("output_CSV.csv","w",newline="") as datacsv:
-     csvwriter = csv.writer(datacsv,dialect = ("excel"))
-     #寫標題
-     #csvwriter.writerow(banks[0])
-     csvwriter.writerow(["報表編號",
-                         "時間",
-                         "報表代號",
-                         "報表名稱",
-                         "銀行中文名稱",
-                         "銀行英文名稱",
-                         "銀行類別",
-                         "金控註記",
-                         "活期性存款",
-                         "定期性存款",
-                         "外匯存款",
-                         "公庫存款及其他"
-                        ])
-    #寫資料
-     for n in range(len(banks)):
-         #csvwriter.writerow(banks[n].values())            
-         csvwriter.writerow([banks[n]["報表編號"],
-                             banks[n]["時間"],
-                             banks[n]["報表代號"],
-                             banks[n]["報表名稱"],
-                             banks[n]["銀行中文名稱"],
-                             banks[n]["銀行英文名稱"],
-                             banks[n]["銀行類別"],
-                             banks[n]["金控註記"],
-                             banks[n]["活期性存款"],
-                             banks[n]["定期性存款"],
-                             banks[n]["外匯存款"],
-                             banks[n]["公庫存款及其他"]
-                            ])            
+data_count=write_csv(banks,"output.csv")
 
-print('資料筆數：',n)
+print('資料筆數：',data_count)
