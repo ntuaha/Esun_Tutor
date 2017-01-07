@@ -69,10 +69,67 @@ def write_csv(banks,file_name):
                                 ])            
     return n
 
+def write_xls(banks,file_name):
+    # 新增檔案，初始化sheet
+    workbook = xlsxwriter.Workbook(file_name)
+    worksheet = workbook.add_worksheet()
+    format0 = workbook.add_format()
+    format1 = workbook.add_format()
+    format1.set_num_format(0x07)
+
+    # Add a bold format to use to highlight cells.
+    bold = workbook.add_format({'bold': True})
+    worksheet.write(0,0,"報表編號",format0)
+    worksheet.write(0,1,"時間",format0)
+    worksheet.write(0,2,"報表代號",format0)
+    worksheet.write(0,3,"報表名稱",format0)
+    worksheet.write(0,4,"銀行中文名稱",format0)
+    worksheet.write(0,5,"銀行英文名稱",format0)
+    worksheet.write(0,6,"銀行類別")
+    worksheet.write(0,7,"金控註記")
+    worksheet.write(0,8,"活期性存款")
+    worksheet.write(0,9,"定期性存款")
+    worksheet.write(0,10,"外匯存款")
+    worksheet.write(0,11,"公庫存款及其他")                    
+
+    #寫資料
+    for n in range(len(banks)):          
+        worksheet.write(n,0,banks[n]["報表編號"])
+        worksheet.write(n,1,banks[n]["時間"])
+        worksheet.write(n,2,banks[n]["報表代號"])
+        worksheet.write(n,3,banks[n]["報表名稱"])
+        worksheet.write(n,4,banks[n]["銀行中文名稱"])
+        worksheet.write(n,5,banks[n]["銀行英文名稱"])
+        worksheet.write(n,6,banks[n]["銀行類別"])
+        worksheet.write(n,7,banks[n]["金控註記"])
+        worksheet.write(n,8,banks[n]["活期性存款"],format1)
+        worksheet.write(n,9,banks[n]["定期性存款"],format1)
+        worksheet.write(n,10,banks[n]["外匯存款"],format1)
+        worksheet.write(n,11,banks[n]["公庫存款及其他"],format1)
+    #總計
+    #worksheet.write(1,0,banks[n]["報表編號"])
+    #worksheet.write(1,1,banks[n]["時間"])
+    #worksheet.write(1,2,banks[n]["報表代號"])
+    #worksheet.write(1,3,banks[n]["報表名稱"])
+    #worksheet.write(1,4,"總計")
+    #worksheet.write(1,5,"")
+    #worksheet.write(1,6,"")
+    #worksheet.write(1,7,"")
+    #worksheet.write(1,8,banks[n]["活期性存款"],format1)
+    #worksheet.write(1,9,banks[n]["定期性存款"],format1)
+    #worksheet.write(1,10,banks[n]["外匯存款"],format1)
+    #worksheet.write(1,11,banks[n]["公庫存款及其他"],format1)
+# Insert an image.
+    workbook.close()
+    
+    return n
+
 import xlrd
 import csv
+import xlsxwriter
 banks = []
-data_count = 0
+data_count_csv = 0
+data_count_xls = 0
 book = xlrd.open_workbook("./22010.xls")
 #每個sheet都要讀
 for sh_num in range(book.nsheets): 
@@ -88,6 +145,8 @@ for sh_num in range(book.nsheets):
             banks.append(extract_bank(count_rows))
 
 #輸出檔案 csv
-data_count=write_csv(banks,"output.csv")
+data_count_csv=write_csv(banks,"output_csv.csv")
+data_count_xls=write_xls(banks,"output_xls.xlsx")
 
-print('資料筆數：',data_count)
+print('csv資料筆數：',data_count_csv)
+print('xls資料筆數：',data_count_xls)
