@@ -6,3 +6,6 @@ aha <ntuaha@gmail.com>
 
 ## 參與人員
 - lexie
+- GM
+- wkr
+- SeFei
