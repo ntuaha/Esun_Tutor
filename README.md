@@ -12,6 +12,9 @@ https://ntuaha.gitbooks.io/saturday-s-hometeach/content/chapter1.html
 - wkr
 - SeFei
 
+## 線上問題教室
+有問題就來這裡問吧
+https://gitter.im/PythonTips/Lobby
 
 ## 我的乙太坊錢包位置
 0x83A1D95aAa6367A61d60C9b0251dD4bA51B9844B
