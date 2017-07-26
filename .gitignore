@@ -2,3 +2,4 @@
 *.swp
 log/*.log
 .ipynb_checkpoints
+.vscode
