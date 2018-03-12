@@ -1,0 +1,46 @@
+import keras
+import numpy as np
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+from keras.models import Sequential
+from keras.optimizers import SGD
+from keras.layers import Dense,Conv2D,MaxPooling2D,Flatten
+
+from sklearn import datasets
+def load_data(size):
+    mnist = datasets.fetch_mldata('MNIST original')
+    s = mnist.data.shape[0]
+    c = np.zeros(s)
+    c[np.random.choice(s,size,replace=False)] = 1
+    #n_train = size
+    data_train = mnist.data[c==1]
+    target_train = mnist.target[c==1]
+    data_test = mnist.data[c==0]
+    target_test = mnist.target[c==0]
+    return (data_train.astype(np.float32), target_train.astype(np.float32),data_test.astype(np.float32), target_test.astype(np.float32))
+
+
+
+if __name__ == "__main__":
+(x_train,t_train,x_test,t_test) = load_data(20000)
+t_train_2 = keras.utils.to_categorical(t_train, num_classes=10)
+t_test_2 = keras.utils.to_categorical(t_test, num_classes=10)
+x_train_2 = (x_train/255).reshape(x_train.shape[0],28,28,-1)
+x_test_2 = (x_test/255).reshape(x_test.shape[0],28,28,1)
+iters_num = 10000
+batch_size = 100
+epochs = 50
+
+
+
+model = Sequential()
+model.add(Conv2D(30, (5,5), strides=(1, 1),input_shape=(28,28,1),activation='relu', use_bias=True, bias_initializer='zeros'))
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2), padding='valid'))
+model.add(Flatten())
+model.add(Dense(units=100, activation='relu', use_bias=True)) #output = 100
+model.add(Dense(units=10, activation='softmax', use_bias=True)) #output = 10
+
+sgd = SGD(lr=0.01, momentum=0, nesterov=False)
+model.compile(loss='categorical_crossentropy',optimizer=sgd,metrics=['accuracy'])
+model.fit(x_train_2, t_train_2, epochs=epochs, batch_size=batch_size)
+score = model.evaluate(x_test_2, t_test_2, batch_size=batch_size)
